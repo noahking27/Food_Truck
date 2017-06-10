@@ -1,0 +1,1 @@
+CREATE DATABASE food_truck_db;
