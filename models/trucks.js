@@ -38,13 +38,11 @@ module.exports = function(sequelize, DataTypes) {
 				notEmpty: true
 			}
 		},
-		created_at: {
-			type: DataTypes.DATEONLY,
-			allowNull: false,
-			defaultValue: DataTypes.NOW
+		current_rating: {
+			type: DataTypes.DECIMAL(10, 1),
+			allowNull: false
 		}
 	}, {
-		timestamps: false,
 		classMethods: {
 			associate: function(models) {
 				Foodtrucks.hasMany(models.Reviews, {

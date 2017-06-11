@@ -15,6 +15,7 @@ function getFoodTrucks() {
 			$("#myModalLabel").text($(this).text());
 			$("#tweets").empty();
 			$("#currentReviews").empty();
+			$("#received").text("");
 			getFoodTruckData($(this).text());
 		});
 	});
@@ -29,6 +30,7 @@ function getFoodTruckData(ft) {
 	});
 }
 
+//AS OF NOW, WE ARE ONLY DISPLAYING THE REVIEWER'S NAME AND REVIEW, BUT WE CAN DISPLAY THEIR FAVORITE FOOD AND THEIR ACTUAL RATING IF WE WANT TO
 function parseFTData(data) {
 	var truckD = data.foodtruckData;
 	var twitterD = data.tweetsData;
@@ -36,7 +38,7 @@ function parseFTData(data) {
 
 	$("#truckName").text(truckD.name);
 	$("#truckDescription").text(twitterD.description);
-	$("#averageRating").text("Rating: coming soon");
+	$("#averageRating").text("Rating: " + truckD.current_rating);
 	$("#cuisine").text("Cuisine: " + truckD.food_type);
 	$("#website").text("Website: " + truckD.website);
 	$("#twitterHandle").text("Twitter Handle: @" + truckD.twitter_handle);
@@ -45,9 +47,6 @@ function parseFTData(data) {
 	tHeader.text(truckD.name + " tweets...");
 	$("#tweets").append(tHeader);
 
-	var rHeader = $("<h5>");
-	rHeader.text("Some real truckin' reviews...");
-	$("#currentReviews").append(rHeader);
 
 	for (var i = 0; i < twitterD.tweet.length; i++) {
 		var ptag = $("<p>");
@@ -57,7 +56,7 @@ function parseFTData(data) {
 
 	for (var i = 0; i < reviewsD.length; i++) {
 		var ptag = $("<p>");
-		ptag.text(reviewsD[i].user_name + "says: " + reviewsD[i].review)
+		ptag.text(reviewsD[i].user_name + " says: " + reviewsD[i].review)
 		$("#currentReviews").append(ptag);
 	}
 
@@ -72,11 +71,20 @@ $("#reviewSubmit").on("click", function(event) {
 	var reviewObject = {
 		user_name: $("#userName").val().trim(),
 		rating: $("#rating").val().trim(),
+		fav_food: $("#exampleFavFood").val().trim(),
 		review: $("#reviews").val().trim()
 	}
 
 	$.post(queryUrl, reviewObject, function(data) {
-		setTimeout(alert("Thanks for your review!"), 500);
+		$("#averageRating").text("Rating: " + data);
+		var ptag = $("<p>");
+		ptag.text(reviewObject.user_name + " says: " + reviewObject.review);
+		$("#currentReviews").prepend(ptag);
+		$("#userName").val("");
+		$("#rating").val("");
+		$("#exampleFavFood").val("");
+		$("#reviews").val("");
+		$("#received").text("Thanks for your review!");
 	});
 });
 
