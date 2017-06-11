@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../models");
+var Twitter = require("twitter");
+var myKeys = require("../twitter_config/keys.js");
+var twitterClient = new Twitter(myKeys.twitterKeys);
 
 //THIS WILL FILL THE DROPDOWN WITH ALL OUR FOODTRUCK NAMES
 router.get("/foodtrucks", function(req, res) {
@@ -22,7 +25,8 @@ router.get("/reviews/:ftName", function(req, res) {
 	}).then(function(dbFoodtrucks) {
 		var data = {
 			foodtruckData: dbFoodtrucks.dataValues,
-			reviewsData: []
+			reviewsData: [],
+			tweetsData: []
 		}
 
 		db.Reviews.findAll({
@@ -35,8 +39,16 @@ router.get("/reviews/:ftName", function(req, res) {
 			}
 
 			//TWITTER LOGIC MIGHT GO HERE
-
-			res.json(data);
+			var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
+			console.log(params);
+			twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+			  	if (!error) {
+			     	for (var i = 0; i < tweets.length; i++) {
+			     		data.tweetsData.push(tweets[i].text);
+			     	}
+			     	res.json(data);
+			  	}
+			});
 		});
 	});
 });

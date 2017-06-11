@@ -2,7 +2,7 @@
 
 $("#submitTruck").on("click", function(event){
 	event.preventDefault();
-
+	console.log("inside");
 	var newTruck = {
 
 		name: $("#foodTruckName").val().trim(),
@@ -13,11 +13,11 @@ $("#submitTruck").on("click", function(event){
 
 		website: $("#webSite").val().trim(),
 
-		twitter_handle: $("#twitterHandle").val().trim(),
-
+		twitter_handle: $("#twitterHandle").val().trim()
+		
 	};
 
-	$.post("/enter", newTruck)
+	$.post("/api/enter", newTruck)
 
 	.done(function(data){
 		console.log(data);
@@ -28,6 +28,6 @@ $("#submitTruck").on("click", function(event){
 	$("#foodType").val("");
 	$("bestDish").val("");
 	$("#webSite").val("");
-	$("#twitterHandle").val("")''
+	$("#twitterHandle").val("");
 
 });
