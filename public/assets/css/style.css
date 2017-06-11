@@ -1,11 +1,23 @@
-#ftInfo {
-	display: none;
+body {
+	background-color: #EEE1D2;
 }
 
-#selectedTruck {
-	width: 400px;
+.jumbotron {
+	background-image: url("../images/foodtruck.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: top;
+	height: auto;
 }
 
-#currentTrucks {
-	width: 400px;
+.jumbotron h1 {
+	font-family: 'Righteous', cursive;
+	color: #FFFEFC;
+	font-size: 70px;
+}
+
+#header {
+	font-family: 'Pacifico', cursive;
+	color: #555;
+	font-size: 50px;
 }

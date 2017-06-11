@@ -49,16 +49,23 @@
       <!-- **I ADDED AN ID OF "FTINFO" HERE SO THAT WE COULD DO DISPLAY HIDDEN TO START -->
       <div class="panel-group" id="ftInfo">
         <div class="panel panel-default">
-          <div class="panel-heading text-center" id="truckName"></div>
+          <div class="panel-heading text-center">
+            <h2 id="truckName"></h2>
+            <h5 id="truckDescription"></h5>
+          </div>
           <div class="panel-body" id="truckInfo">
               <!-- **I ADDED ID'S HERE SO THAT I COULD PLACE THE DATA ONTO THE PAGE. I ALSO ADDED SOME BOLDING TO THE RATING ELEMENT -->
-              <p id="averageRating">Rating: </p>
-              <p id="cuisine">Cuisine: </p>
-              <p id="website">Website: </p>
+              <p id="averageRating"></p>
+              <p id="cuisine"></p>
+              <p id="website"></p>
               <p id="twitterHandle" <i class=“fa fa-twitter” aria-hidden=“true”>
-                </i>>Twitter Handle: </p>
-              <p id="tweets">Tweets: </p>
-              <p id="currentReviews">Reviews: </p>
+                </i>></p>
+              <!-- **I ADDED IN A DIV TO HANDLE THE TWEETS -->
+              <div id="tweets">
+              </div>
+              <!-- **I ADDED IN A DIV TO HANDLE THE REVIEWS -->
+              <div id="currentReviews">
+              </div>
           </div>
         </div>
 
@@ -89,22 +96,30 @@
 
                 <form role="form">
                   <div class="form-group">
-                    <label for="rating"></label>
-                    <input type="text" class="form-control" id="reviews" placeholder="Rate on a Scale from 1 to 5" />
+                    <label for="userName">Your name</label><br>
+                    <small>optional</small>
+                    <input type="text" class="form-control" id="userName" placeholder="Name" />
                   </div>
                   <div class="form-group">
-                    <label for="exampleFavFood"></label>
+                    <label for="rating">Rate this truck</label><br>
+                    <small>1 = "Pass" ... 5 = "Your life will be empty without having tried this"</small>
+                    <input type="text" class="form-control" id="rating" placeholder="Rate on a Scale from 1 to 5" />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFavFood">What food was awesome?</label><br>
+                    <small>optional</small>
                     <input type="text" class="form-control" id="exampleFavFood" placeholder="Favorite Menu Item" />
                   </div>
                   <div class="form-group">
-                    <label for="reviews"></label>
+                    <label for="reviews">Write a review</label><br>
+                    <small>optional... but your reviews help others!</small>
                     <input type="textarea" class="form-control" id="reviews" placeholder="Write Your Review Here" />
                 </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                   <!-- **I DELETED THE OTHER BUTTON AND MADE IT SO THAT THE MODAL WOULD JUST SHUT ONCE THEY CLICK "SUBMI" -->
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" id="reviewSubmit">
                             Submit
                   </button>
                 </div>

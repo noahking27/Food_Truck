@@ -26,7 +26,11 @@ router.get("/reviews/:ftName", function(req, res) {
 		var data = {
 			foodtruckData: dbFoodtrucks.dataValues,
 			reviewsData: [],
-			tweetsData: []
+			tweetsData: {
+				created: [],
+				tweet: [],
+				description: ""
+			}
 		}
 
 		db.Reviews.findAll({
@@ -43,9 +47,14 @@ router.get("/reviews/:ftName", function(req, res) {
 			console.log(params);
 			twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
 			  	if (!error) {
+			  		data.tweetsData.description = tweets[0].user.description;
+
 			     	for (var i = 0; i < tweets.length; i++) {
-			     		data.tweetsData.push(tweets[i].text);
+			     		var trunc = tweets[i].created_at.slice(0, 10);
+			     		data.tweetsData.created.push(trunc);
+			     		data.tweetsData.tweet.push(tweets[i].text);
 			     	}
+
 			     	res.json(data);
 			  	}
 			});
@@ -56,12 +65,22 @@ router.get("/reviews/:ftName", function(req, res) {
 //THIS WILL ADD THE FOODTRUCK TO THE DATABASE. IT'S NOT SET UP TO RECEIVE FILE UPLOADS YET, BUT HOPEFULLY WE'LL MAKE THAT HAPPEN!
 router.post("/enter", function(req, res) {
 	var object = req.body;
+
+	if (object.twitter_handle.charAt(0) === "@") {
+		object.twitter_handle = object.twitter_handle.substr(1);
+	}
+
+	if (!(object.website.includes("www."))) {
+		object.website = "www." + object.website;
+	}
+	
+	console.log(object);
 	db.Foodtrucks.create({
 		name: object.name,
-		food_type: object.type,
-		popular_item: object.dish,
+		food_type: object.food_type,
+		popular_item: object.popular_item,
 		website: object.website,
-		twitter_handle: object.twitter
+		twitter_handle: object.twitter_handle
 	}).then(function(dbFoodtrucks) {
 		res.json("thank you");
 	});

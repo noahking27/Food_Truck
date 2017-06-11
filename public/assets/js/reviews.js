@@ -13,6 +13,8 @@ function getFoodTrucks() {
 			event.preventDefault();
 			$("#selectedTruck").text($(this).text());
 			$("#myModalLabel").text($(this).text());
+			$("#tweets").empty();
+			$("#currentReviews").empty();
 			getFoodTruckData($(this).text());
 		});
 	});
@@ -33,18 +35,48 @@ function parseFTData(data) {
 	var reviewsD = data.reviewsData;
 
 	$("#truckName").text(truckD.name);
-	$("#averageRating").text("coming soon");
-	$("#cuisine").text(truckD.food_type);
-	$("#website").text(truckD.website);
-	$("#twitterHandle").text("@" + truckD.twitter_handle);
+	$("#truckDescription").text(twitterD.description);
+	$("#averageRating").text("Rating: coming soon");
+	$("#cuisine").text("Cuisine: " + truckD.food_type);
+	$("#website").text("Website: " + truckD.website);
+	$("#twitterHandle").text("Twitter Handle: @" + truckD.twitter_handle);
+	
+	var tHeader = $("<h5>");
+	tHeader.text(truckD.name + " tweets...");
+	$("#tweets").append(tHeader);
 
-	for (var i = 0; i < twitterD.length; i++) {
-		$("#tweets").text(twitterD[i] + "\n\n")
+	var rHeader = $("<h5>");
+	rHeader.text("Some real truckin' reviews...");
+	$("#currentReviews").append(rHeader);
+
+	for (var i = 0; i < twitterD.tweet.length; i++) {
+		var ptag = $("<p>");
+		ptag.text(twitterD.created[i] + "  --  " + twitterD.tweet[i]);
+		$("#tweets").append(ptag);
 	}
 
 	for (var i = 0; i < reviewsD.length; i++) {
-		$("#currentReviews").text(reviewsD[i].user_name + "says: \n" + reviewsD[i].review + "\n\n");
+		var ptag = $("<p>");
+		ptag.text(reviewsD[i].user_name + "says: " + reviewsD[i].review)
+		$("#currentReviews").append(ptag);
 	}
 
 	$("#ftInfo").css("display", "block");
 }
+
+$("#reviewSubmit").on("click", function(event) {
+	event.preventDefault();
+	console.log($("#myModalLabel").text());
+	var queryUrl = "/api/review/" + $("#myModalLabel").text();
+
+	var reviewObject = {
+		user_name: $("#userName").val().trim(),
+		rating: $("#rating").val().trim(),
+		review: $("#reviews").val().trim()
+	}
+
+	$.post(queryUrl, reviewObject, function(data) {
+		setTimeout(alert("Thanks for your review!"), 500);
+	});
+});
+

@@ -2,7 +2,7 @@
 
 $("#submitTruck").on("click", function(event){
 	event.preventDefault();
-	console.log("inside");
+
 	var newTruck = {
 
 		name: $("#foodTruckName").val().trim(),
@@ -17,17 +17,17 @@ $("#submitTruck").on("click", function(event){
 		
 	};
 
+	console.log(newTruck);
+
 	$.post("/api/enter", newTruck)
 
 	.done(function(data){
 		console.log(data);
 		alert("Food Truck Added!");
+		$("#foodTruckName").val("");
+		$("#foodType").val("");
+		$("bestDish").val("");
+		$("#webSite").val("");
+		$("#twitterHandle").val("");
 	});
-
-	$("#foodTruckName").val("");
-	$("#foodType").val("");
-	$("bestDish").val("");
-	$("#webSite").val("");
-	$("#twitterHandle").val("");
-
 });
