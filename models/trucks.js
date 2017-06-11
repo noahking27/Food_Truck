@@ -47,7 +47,7 @@ module.exports = function(sequelize, DataTypes) {
 		timestamps: false,
 		classMethods: {
 			associate: function(models) {
-				Foodtrucks.hasMany(models.Reviews, {
+				Foodtrucks.hasMany(models.Reviews, models.Ratings, {
 					onDelete: "cascade"
 				});
 			}

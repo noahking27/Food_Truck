@@ -17,6 +17,13 @@ module.exports = function(sequelize, DataTypes) {
 				max: 5
 			}
 		},
+		fav_food: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			validate: {
+				notEmpty: true
+			}
+		},
 		review: {
 			type: DataTypes.TEXT,
 			allowNull: true,

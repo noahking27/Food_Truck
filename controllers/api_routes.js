@@ -5,6 +5,13 @@ var Twitter = require("twitter");
 var myKeys = require("../twitter_config/keys.js");
 var twitterClient = new Twitter(myKeys.twitterKeys);
 
+//THIS WILL PRODUCE THE TOP 6 FOOD TRUCKS
+router.get("/toptrucks", function(req, res) {
+	db.Ratings.findAll({ order: "current_rating DESC", limit: 6 }).then(function(dbRatings) {
+		res.json(dbRatings);
+	});
+});
+
 //THIS WILL FILL THE DROPDOWN WITH ALL OUR FOODTRUCK NAMES
 router.get("/foodtrucks", function(req, res) {
 	db.Foodtrucks.findAll({ order: "name ASC" }).then(function(dbFoodtrucks) {
@@ -26,6 +33,7 @@ router.get("/reviews/:ftName", function(req, res) {
 		var data = {
 			foodtruckData: dbFoodtrucks.dataValues,
 			reviewsData: [],
+			ratingsData: 0,
 			tweetsData: {
 				created: [],
 				tweet: [],
@@ -38,25 +46,36 @@ router.get("/reviews/:ftName", function(req, res) {
 				FoodtruckId: dbFoodtrucks.dataValues.id
 			}
 		}).then(function(dbReviews) {
-			for (var i = 0; i < dbReviews.length; i++) {
-				data.reviewsData.push(dbReviews[i].dataValues);
-			}
 
-			//TWITTER LOGIC MIGHT GO HERE
-			var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
-			console.log(params);
-			twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
-			  	if (!error) {
-			  		data.tweetsData.description = tweets[0].user.description;
+			db.Ratings.findOne({
+				attributes: ["current_rating"],
+				where: {
+					FoodtruckId: dbFoodtrucks.dataValues.id
+				}
+			}).then(function(dbRatings) {
 
-			     	for (var i = 0; i < tweets.length; i++) {
-			     		var trunc = tweets[i].created_at.slice(0, 10);
-			     		data.tweetsData.created.push(trunc);
-			     		data.tweetsData.tweet.push(tweets[i].text);
-			     	}
+				data.ratingsData = dbRatings.dataValues.current_rating;
 
-			     	res.json(data);
-			  	}
+				for (var i = 0; i < dbReviews.length; i++) {
+					data.reviewsData.push(dbReviews[i].dataValues);
+				}
+
+				//TWITTER LOGIC MIGHT GO HERE
+				var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
+				console.log(params);
+				twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+				  	if (!error) {
+				  		data.tweetsData.description = tweets[0].user.description;
+
+				     	for (var i = 0; i < tweets.length; i++) {
+				     		var trunc = tweets[i].created_at.slice(0, 10);
+				     		data.tweetsData.created.push(trunc);
+				     		data.tweetsData.tweet.push(tweets[i].text);
+				     	}
+				     	console.log(data);
+				     	res.json(data);
+				  	}
+				});
 			});
 		});
 	});
@@ -82,7 +101,13 @@ router.post("/enter", function(req, res) {
 		website: object.website,
 		twitter_handle: object.twitter_handle
 	}).then(function(dbFoodtrucks) {
-		res.json("thank you");
+		db.Ratings.create({
+			current_rating: 0,
+			truck_name: object.name,
+			FoodtruckId: dbFoodtrucks.dataValues.id
+		}).then(function(dbRatings) {
+			res.json("thank you");
+		});
 	});
 });
 
@@ -99,12 +124,42 @@ router.post("/review/:ftName", function(req, res) {
 			//assuming the req object matches these keys...
 			user_name: object.user_name,
 			rating: object.rating,
+			fav_food: object.fav_food,
 			review: object.review,
 			FoodtruckId: dbFoodtrucks.dataValues.id
 		}).then(function(dbReviews) {
-			res.json("thank you");
+			var ratingsArray = [];
+			var avgRating = 0;
+			db.Reviews.findAll({
+				attributes: ["rating"],
+				where: {
+					FoodtruckId: dbFoodtrucks.dataValues.id
+				}
+			}).then(function(dbFTRatings) {
+				for (var i = 0; i < dbFTRatings.length; i++) {
+					ratingsArray.push(dbFTRatings[i].dataValues.rating);
+				}
+
+				for (var i = 0; i < ratingsArray.length; i++) {
+					avgRating += ratingsArray[i];
+				}
+
+				avgRating = avgRating / ratingsArray.length;
+				updateRatings(avgRating, dbFoodtrucks.dataValues.id);
+				res.json(avgRating.toFixed(1));
+			});
 		});
 	});
 });
+
+function updateRatings (avg, id) {
+	db.Ratings.update({
+		current_rating: avg,
+	}, {
+		where: {
+			FoodtruckId: id
+		}
+	}).then(function(dbRatings) {});
+}
 
 module.exports = router;

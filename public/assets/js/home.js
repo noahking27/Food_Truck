@@ -1,22 +1,28 @@
 
 // GET REQUEST OF THE TOP TRUCKS
-$.get("/api/toptrucks", function(data){
+getTopTrucks();
 
-	for (var i = 0; i < //PLACEHOLDER.length 
-		; i++) {
-		var topTruck = $("<div>");
+function getTopTrucks() {
+	$.get("/api/toptrucks", function(data){
 
-		topTruck.addClass("top");
+		console.log(data);
 
-		topTruck.attr("id", "topFive" + i);
+		// for (var i = 0; i < //PLACEHOLDER.length 
+		// 	; i++) {
+		// 	var topTruck = $("<div>");
 
-		$("#WHATEVER ID THEY USE").append(topTruck);
+		// 	topTruck.addClass("top");
 
-		//Append the data to HTML page
-		//MAKE SURE THE DATA.[i].NAME, ETC ARE CORRECT!!!!!!!!!!!!!!
-		$("#topFive" + i).append("<h2>" + data[i].name + "</h2>");
+		// 	topTruck.attr("id", "topFive" + i);
 
-		$("#topFive" + i).append("<h2>" + data[i].food_type + "</h2>");
+		// 	$("#WHATEVER ID THEY USE").append(topTruck);
 
-	}
-});
+		// 	//Append the data to HTML page
+		// 	//MAKE SURE THE DATA.[i].NAME, ETC ARE CORRECT!!!!!!!!!!!!!!
+		// 	$("#topFive" + i).append("<h2>" + data[i].name + "</h2>");
+
+		// 	$("#topFive" + i).append("<h2>" + data[i].food_type + "</h2>");
+
+		// }
+	});
+}
