@@ -7,8 +7,8 @@ var twitterClient = new Twitter(myKeys.twitterKeys);
 
 //THIS WILL PRODUCE THE TOP 6 FOOD TRUCKS
 router.get("/toptrucks", function(req, res) {
-	db.Ratings.findAll({ order: "current_rating DESC", limit: 6 }).then(function(dbRatings) {
-		res.json(dbRatings);
+	db.Foodtrucks.findAll({ order: "current_rating DESC", limit: 6 }).then(function(dbFoodtrucks) {
+		res.json(dbFoodtrucks);
 	});
 });
 
@@ -33,7 +33,6 @@ router.get("/reviews/:ftName", function(req, res) {
 		var data = {
 			foodtruckData: dbFoodtrucks.dataValues,
 			reviewsData: [],
-			ratingsData: 0,
 			tweetsData: {
 				created: [],
 				tweet: [],
@@ -46,36 +45,25 @@ router.get("/reviews/:ftName", function(req, res) {
 				FoodtruckId: dbFoodtrucks.dataValues.id
 			}
 		}).then(function(dbReviews) {
+			for (var i = 0; i < dbReviews.length; i++) {
+				data.reviewsData.push(dbReviews[i].dataValues);
+			}
 
-			db.Ratings.findOne({
-				attributes: ["current_rating"],
-				where: {
-					FoodtruckId: dbFoodtrucks.dataValues.id
+			//TWITTER LOGIC MIGHT GO HERE
+			var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
+			console.log(params);
+			twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+			  	if (!error) {
+			  		data.tweetsData.description = tweets[0].user.description;
+
+					for (var i = 0; i < tweets.length; i++) {
+				   	 	var trunc = tweets[i].created_at.slice(0, 10);
+				     	data.tweetsData.created.push(trunc);
+				     	data.tweetsData.tweet.push(tweets[i].text);
+				    }
+				    console.log(data);
+				    res.json(data);
 				}
-			}).then(function(dbRatings) {
-
-				data.ratingsData = dbRatings.dataValues.current_rating;
-
-				for (var i = 0; i < dbReviews.length; i++) {
-					data.reviewsData.push(dbReviews[i].dataValues);
-				}
-
-				//TWITTER LOGIC MIGHT GO HERE
-				var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
-				console.log(params);
-				twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
-				  	if (!error) {
-				  		data.tweetsData.description = tweets[0].user.description;
-
-				     	for (var i = 0; i < tweets.length; i++) {
-				     		var trunc = tweets[i].created_at.slice(0, 10);
-				     		data.tweetsData.created.push(trunc);
-				     		data.tweetsData.tweet.push(tweets[i].text);
-				     	}
-				     	console.log(data);
-				     	res.json(data);
-				  	}
-				});
 			});
 		});
 	});
@@ -99,15 +87,10 @@ router.post("/enter", function(req, res) {
 		food_type: object.food_type,
 		popular_item: object.popular_item,
 		website: object.website,
-		twitter_handle: object.twitter_handle
+		twitter_handle: object.twitter_handle,
+		current_rating: 0
 	}).then(function(dbFoodtrucks) {
-		db.Ratings.create({
-			current_rating: 0,
-			truck_name: object.name,
-			FoodtruckId: dbFoodtrucks.dataValues.id
-		}).then(function(dbRatings) {
-			res.json("thank you");
-		});
+		res.json("thank you");
 	});
 });
 
@@ -145,21 +128,21 @@ router.post("/review/:ftName", function(req, res) {
 				}
 
 				avgRating = avgRating / ratingsArray.length;
-				updateRatings(avgRating, dbFoodtrucks.dataValues.id);
+				updateRating(avgRating, dbFoodtrucks.dataValues.id);
 				res.json(avgRating.toFixed(1));
 			});
 		});
 	});
 });
 
-function updateRatings (avg, id) {
-	db.Ratings.update({
+function updateRating (avg, id) {
+	db.Foodtrucks.update({
 		current_rating: avg,
 	}, {
 		where: {
-			FoodtruckId: id
+			id: id
 		}
-	}).then(function(dbRatings) {});
+	}).then(function(dbFoodtrucks) {});
 }
 
 module.exports = router;

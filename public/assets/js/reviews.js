@@ -35,11 +35,10 @@ function parseFTData(data) {
 	var truckD = data.foodtruckData;
 	var twitterD = data.tweetsData;
 	var reviewsD = data.reviewsData;
-	var ratingsD = data.ratingsData;
 
 	$("#truckName").text(truckD.name);
 	$("#truckDescription").text(twitterD.description);
-	$("#averageRating").text("Rating: " + ratingsD);
+	$("#averageRating").text("Rating: " + truckD.current_rating);
 	$("#cuisine").text("Cuisine: " + truckD.food_type);
 	$("#website").text("Website: " + truckD.website);
 	$("#twitterHandle").text("Twitter Handle: @" + truckD.twitter_handle);
