@@ -8,9 +8,14 @@
   <!-- Latest compiled and minified CSS & JS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="reviews.css">
+  <!-- **I DID UPDATE THE JQUERY AND BOOTSTRAP SCRIPT TAGS TO THE MOST RECENT VERSIONS -->
+  <script
+        src="https://code.jquery.com/jquery-3.2.1.js"
+        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+        crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <!-- **I DID CHANGE THE HREF BELOW TO THE PATH FOR THE STYLE.CSS FILE -->
+  <link rel="stylesheet" href="assets/css/style.css">
   <script src=“https://use.fontawesome.com/0e571e0b0b.js“></script>
 
 
@@ -24,10 +29,16 @@
       <hr>
     </div>
 
-    <div class="dropdown">
-      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Food Trucks
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu">
+    <!-- **I MADE THE DROPDOWN BUTTON A SLIGHTLY DIFFERENT KIND FROM BOOTSTRAP (THE SPLIT BUTTON DROPDOWN) BECAUSE IT'S EASIER TO MANIPULATE WITH JAVASCRIPT -->
+    <div class="btn-group">
+      <!-- <button class="btn btn-primary dropdown-toggle" id="truckDropdown" type="button" data-toggle="dropdown">Food Trucks
+      <span class="caret"></span></button> -->
+      <button type="button" class="btn btn-primary" id="selectedTruck">Food Trucks</button>
+      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" id="currentTrucks">
       </ul>
     </div>
 
@@ -35,17 +46,26 @@
 
     <div class="container">
       <h2>Keep on Truckin'....</h2>
-      <div class="panel-group">
+      <!-- **I ADDED AN ID OF "FTINFO" HERE SO THAT WE COULD DO DISPLAY HIDDEN TO START -->
+      <div class="panel-group" id="ftInfo">
         <div class="panel panel-default">
-          <div class="panel-heading" id="truckName"></div>
+          <div class="panel-heading text-center">
+            <h2 id="truckName"></h2>
+            <h5 id="truckDescription"></h5>
+          </div>
           <div class="panel-body" id="truckInfo">
-            <p>Overall Rating:
-              <p>Cuisine:</p>
-              <p>Website:</p>
-              <p <i class=“fa fa-twitter” aria-hidden=“true”>
-                </i>>Twitter Handle:</p>
-              <p>Tweets:</p>
-              <p>Reviews:</p>
+              <!-- **I ADDED ID'S HERE SO THAT I COULD PLACE THE DATA ONTO THE PAGE. I ALSO ADDED SOME BOLDING TO THE RATING ELEMENT -->
+              <p id="averageRating"></p>
+              <p id="cuisine"></p>
+              <p id="website"></p>
+              <p id="twitterHandle" <i class=“fa fa-twitter” aria-hidden=“true”>
+                </i>></p>
+              <!-- **I ADDED IN A DIV TO HANDLE THE TWEETS -->
+              <div id="tweets">
+              </div>
+              <!-- **I ADDED IN A DIV TO HANDLE THE REVIEWS -->
+              <div id="currentReviews">
+              </div>
           </div>
         </div>
 
@@ -65,9 +85,9 @@
                                <span aria-hidden="true">&times;</span>
                                <span class="sr-only">Close</span>
                         </button>
+                <!-- **I TOOK OUT THE MODAL TITLE TEXT BECAUSE WE'LL INJECT IT FROM THE DB -->
                 <h4 class="modal-title" id="myModalLabel">
-                            Write a Review
-                        </h4>
+                </h4>
               </div>
               <!-- Modal Body -->
               <div class="modal-body">
@@ -76,26 +96,32 @@
 
                 <form role="form">
                   <div class="form-group">
-                    <label for="rating"></label>
-                    <input type="text" class="form-control" id="reviews" placeholder="Rate on a Scale from 1 to 5" />
+                    <label for="userName">Your name</label><br>
+                    <small>optional</small>
+                    <input type="text" class="form-control" id="userName" placeholder="Name" />
                   </div>
                   <div class="form-group">
-                    <label for="exampleFavFood"></label>
+                    <label for="rating">Rate this truck</label><br>
+                    <small>1 = "Pass" ... 5 = "Your life will be empty without having tried this"</small>
+                    <input type="text" class="form-control" id="rating" placeholder="Rate on a Scale from 1 to 5" />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFavFood">What food was awesome?</label><br>
+                    <small>optional</small>
                     <input type="text" class="form-control" id="exampleFavFood" placeholder="Favorite Menu Item" />
                   </div>
                   <div class="form-group">
-                    <label for="reviews"></label>
+                    <label for="reviews">Write a review</label><br>
+                    <small>optional... but your reviews help others!</small>
                     <input type="textarea" class="form-control" id="reviews" placeholder="Write Your Review Here" />
                 </form>
                 </div>
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Close
-                        </button>
-                  <button type="button" class="btn btn-primary">
-                            Save changes
-                        </button>
+                  <!-- **I DELETED THE OTHER BUTTON AND MADE IT SO THAT THE MODAL WOULD JUST SHUT ONCE THEY CLICK "SUBMI" -->
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" id="reviewSubmit">
+                            Submit
+                  </button>
                 </div>
               </div>
             </div>
@@ -107,7 +133,6 @@
       <div style='position:fixed;bottom:0;left:0; background:lightgray;width:100%;'>
       </div>
     </div>
+    <script type="text/javascript" src="assets/js/reviews.js"></script>
 </body>
-<script src="../javascript/ajaxCalls.js"></script>
-
 </html>

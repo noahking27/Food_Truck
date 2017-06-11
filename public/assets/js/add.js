@@ -13,21 +13,21 @@ $("#submitTruck").on("click", function(event){
 
 		website: $("#webSite").val().trim(),
 
-		twitter_handle: $("#twitterHandle").val().trim(),
-
+		twitter_handle: $("#twitterHandle").val().trim()
+		
 	};
 
-	$.post("/enter", newTruck)
+	console.log(newTruck);
+
+	$.post("/api/enter", newTruck)
 
 	.done(function(data){
 		console.log(data);
 		alert("Food Truck Added!");
+		$("#foodTruckName").val("");
+		$("#foodType").val("");
+		$("bestDish").val("");
+		$("#webSite").val("");
+		$("#twitterHandle").val("");
 	});
-
-	$("#foodTruckName").val("");
-	$("#foodType").val("");
-	$("bestDish").val("");
-	$("#webSite").val("");
-	$("#twitterHandle").val("")''
-
 });

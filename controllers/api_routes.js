@@ -1,6 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../models");
+var Twitter = require("twitter");
+var myKeys = require("../twitter_config/keys.js");
+var twitterClient = new Twitter(myKeys.twitterKeys);
 
 //THIS WILL FILL THE DROPDOWN WITH ALL OUR FOODTRUCK NAMES
 router.get("/foodtrucks", function(req, res) {
@@ -22,7 +25,12 @@ router.get("/reviews/:ftName", function(req, res) {
 	}).then(function(dbFoodtrucks) {
 		var data = {
 			foodtruckData: dbFoodtrucks.dataValues,
-			reviewsData: []
+			reviewsData: [],
+			tweetsData: {
+				created: [],
+				tweet: [],
+				description: ""
+			}
 		}
 
 		db.Reviews.findAll({
@@ -35,8 +43,21 @@ router.get("/reviews/:ftName", function(req, res) {
 			}
 
 			//TWITTER LOGIC MIGHT GO HERE
+			var params = { screen_name: dbFoodtrucks.dataValues.twitter_handle, count: "3" };
+			console.log(params);
+			twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+			  	if (!error) {
+			  		data.tweetsData.description = tweets[0].user.description;
 
-			res.json(data);
+			     	for (var i = 0; i < tweets.length; i++) {
+			     		var trunc = tweets[i].created_at.slice(0, 10);
+			     		data.tweetsData.created.push(trunc);
+			     		data.tweetsData.tweet.push(tweets[i].text);
+			     	}
+
+			     	res.json(data);
+			  	}
+			});
 		});
 	});
 });
@@ -44,12 +65,22 @@ router.get("/reviews/:ftName", function(req, res) {
 //THIS WILL ADD THE FOODTRUCK TO THE DATABASE. IT'S NOT SET UP TO RECEIVE FILE UPLOADS YET, BUT HOPEFULLY WE'LL MAKE THAT HAPPEN!
 router.post("/enter", function(req, res) {
 	var object = req.body;
+
+	if (object.twitter_handle.charAt(0) === "@") {
+		object.twitter_handle = object.twitter_handle.substr(1);
+	}
+
+	if (!(object.website.includes("www."))) {
+		object.website = "www." + object.website;
+	}
+	
+	console.log(object);
 	db.Foodtrucks.create({
 		name: object.name,
-		food_type: object.type,
-		popular_item: object.dish,
+		food_type: object.food_type,
+		popular_item: object.popular_item,
 		website: object.website,
-		twitter_handle: object.twitter
+		twitter_handle: object.twitter_handle
 	}).then(function(dbFoodtrucks) {
 		res.json("thank you");
 	});
