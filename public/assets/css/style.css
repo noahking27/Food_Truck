@@ -1,18 +1,44 @@
-body {
+html, body {
 	background-color: #EEE1D2;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
 }
 .jumbotron {
 	background-image: url("../images/foodtruck.jpg");
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: cover;
 	background-position: top;
-	height: auto;
+	height: 100vh;
 }
 .jumbotron h1 {
 	font-family: 'Righteous', cursive;
 	color: #FFFEFC;
-	font-size: 70px;
+	font-size: 80px;
 }
+
+/**** Nav Bar ****/
+.main-nav {
+	list-style-type: none;
+	margin-top: 20px;
+}
+.main-nav li {
+	display: inline-block;
+	margin-left: 20px;
+}
+.main-nav li a {
+	color: #066AAA;
+	text-decoration: none;
+	font-size: 17px;
+}
+.main-nav li a:hover {
+	color: #E67E20;
+	border-bottom: 2px solid #E67E20;
+	transition: all 0.6s ease-in;
+	padding: 10px 0;
+}
+
 #header {
 	font-family: 'Pacifico', cursive;
 	color: #555;
@@ -26,4 +52,48 @@ body {
 }
 #currentTrucks {
     width: 400px;
+}
+
+/**** Home Button ****/
+.outerButton {
+	display: inline-block;
+	width: 30%;
+	height: 80px;
+	margin-left: 2%;
+	margin-bottom: 15%;
+}
+.button {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	color: #0082d0;
+	font-size: 3vw;
+	font-weight: bold;
+	background: none;
+	border: 3px solid #0082d0;
+	transition: all 0.4s linear;
+	margin-top: 38%;
+}
+.button:hover { 
+	color: #023964; 
+}
+.button:before,
+.button:after{
+	position: absolute;
+	content: "";
+	width: 0;
+	height: 100%;
+	z-index: -1;
+	background: #0082d0;
+	transition: all 0.4s linear;
+	width: 100%;
+  	height: 0;
+  	left: 0;
+}
+.button:before {
+	top: 0;
+}
+.button:hover:before { 
+	height: 100%; 
 }
