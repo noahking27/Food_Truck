@@ -99,3 +99,49 @@ html, body {
 .button:hover:before { 
 	height: 100%; 
 }
+/*Code by Noah Below*/
+
+#truckName {
+    font-size: 5em;
+
+
+}
+
+#truckDescription {
+	font-size: 1.5em;
+}
+
+#ftHeader {
+	background: #CFB095;
+}
+
+#averageRating, #cuisine, #website, #twitterHandle {
+	font-weight: bold;
+	font-size: 25px;
+    text-decoration: underline;
+    text-align: center;
+}
+
+#tweets {
+	color: blue;
+	font-size: 18px;
+}
+
+#truckReviews {
+	font-weight: bold;
+	font-size: 25px;
+    text-decoration: underline;
+    padding-top: 50px;
+    text-align: center;
+}
+
+#currentReviews {
+	font-size: 18px;
+	text-align: center;
+}
+
+#tweets h5 {
+    font-size: 35px;
+    text-align: center;
+    padding-top: 50px;
+    }

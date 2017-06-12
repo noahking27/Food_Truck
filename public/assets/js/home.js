@@ -24,5 +24,9 @@ function getTopTrucks() {
 		// 	$("#topFive" + i).append("<h2>" + data[i].food_type + "</h2>");
 
 		// }
+
+
+		
 	});
 }
+
