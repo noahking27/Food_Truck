@@ -6,38 +6,47 @@ html, body {
 	width: 100%;
 }
 .jumbotron {
-	background-image: url("../images/foodtruck.jpg");
+	background-image: url("../images/foodtruckheader.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top;
-	height: 100vh;
 }
-.jumbotron h1 {
+h1 {
 	font-family: 'Righteous', cursive;
 	color: #FFFEFC;
 	font-size: 80px;
 }
+h2 {
+	font-family: 'Righteous', cursive;
+	color: #555;
+	font-size: 80px;
+}
+.jumbotron h2 {
+	color: #FFFEFC;
+	text-shadow: -1.5px 0 #000000,0 1.5px #000000,1.5px 0 #000000,0 -1.5px #000000;
+}
+h3 {
+	font-family: 'Righteous', cursive;
+	color: #555;
+	font-size: 25px;
+}
+/*Video Home Page Style*/
 
-/**** Nav Bar ****/
-.main-nav {
-	list-style-type: none;
-	margin-top: 20px;
-}
-.main-nav li {
-	display: inline-block;
-	margin-left: 20px;
-}
-.main-nav li a {
-	color: #066AAA;
-	text-decoration: none;
-	font-size: 17px;
-}
-.main-nav li a:hover {
-	color: #E67E20;
-	border-bottom: 2px solid #E67E20;
-	transition: all 0.6s ease-in;
-	padding: 10px 0;
-}
+.background-wrap {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        top: 0;
+        left: 0;
+      }
+ #video-bg-elem {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-height: 100%;
+      min-width: 100%;
+ }
 
 #header {
 	font-family: 'Pacifico', cursive;
@@ -54,57 +63,51 @@ html, body {
     width: 400px;
 }
 
-/**** Home Button ****/
-.outerButton {
-	display: inline-block;
-	width: 30%;
-	height: 80px;
-	margin-left: 2%;
-	margin-bottom: 15%;
-}
-.button {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	cursor: pointer;
-	color: #0082d0;
-	font-size: 3vw;
-	font-weight: bold;
-	background: none;
-	border: 3px solid #0082d0;
-	transition: all 0.4s linear;
-	margin-top: 38%;
-}
-.button:hover { 
-	color: #023964; 
-	background-color: #bcbcbc;
-	opacity: 0.7;
-}
-.button:before,
-.button:after{
-	position: absolute;
-	content: "";
-	width: 0;
-	height: 100%;
-	z-index: -1;
-	background: #0082d0;
-	transition: all 0.4s linear;
-	width: 100%;
-  	height: 0;
-  	left: 0;
-}
-.button:before {
-	top: 0;
-}
-.button:hover:before { 
-	height: 100%; 
-}
-/*Code by Noah Below*/
+/*Button Styling*/
+ .content {
+    position: absolute;
+    width: 100%;
+    min-height: 100%; 
+    z-index: 1000;
+    background-color: rgba(0,0,0,0.7);
+  }
+  .content h1 {
+    text-align: center;
+    font-size: 85px;
+    font-weight: 300;
+    padding-top: 15%;
+    margin-bottom: 10px; 
+    font-family: 'Righteous', cursive;
+	color: #FFFEFC;
+  }
+  .content p {
+    text-align: center;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: #aaa;
+  }
+ .button {
+    border: solid #036A81 3px;
+    border-radius: 9px;
+    font-family: 'Oswald', sans-serif;
+    color: #036A81;
+    font-size: 30px;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-left: 12px;
+  }
+  .button:hover {
+    color: #023964; 
+	background-color: #BDBDBD;
+	border: solid;
+	opacity: 0.6;
+	transition: ease-in 0.5s;
+  }
+
+/*Code by Dolphin Below*/
 
 #truckName {
     font-size: 5em;
-
-
 }
 
 #truckDescription {
