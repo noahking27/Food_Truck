@@ -16,31 +16,31 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		popular_item: {
 			type: DataTypes.STRING,
-			allowNull: true,
-			defaultValue: null,
-			validate: {
-				notEmpty: true
-			}
+			allowNull: false,
+			defaultValue: "",
 		},
 		website: {
 			type: DataTypes.STRING,
-			allowNull: true,
-			defaultValue: null,
+			allowNull: false,
+			defaultValue: "www.nosite.com",
 			validate: {
 				isUrl: true
 			}
 		},
 		twitter_handle: {
 			type: DataTypes.STRING,
-			allowNull: true,
-			defaultValue: null,
-			validate: {
-				notEmpty: true
-			}
+			allowNull: false,
+			defaultValue: "",
 		},
 		current_rating: {
 			type: DataTypes.DECIMAL(10, 1),
-			allowNull: false
+			allowNull: false,
+			defaultValue: 0
+		},
+		total_ratings: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0
 		}
 	}, {
 		classMethods: {

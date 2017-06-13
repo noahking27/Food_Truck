@@ -37,27 +37,45 @@ function parseFTData(data) {
 	var reviewsD = data.reviewsData;
 
 	$("#truckName").text(truckD.name);
-	$("#truckDescription").text(twitterD.description);
 	$("#averageRating").text("Rating: " + truckD.current_rating);
+	$("#totalRatings").text("Total reviews: " + truckD.total_ratings);
 	$("#cuisine").text("Cuisine: " + truckD.food_type);
-	$("#website").text("Website: " + truckD.website);
-	$("#twitterHandle").text("Twitter Handle: @" + truckD.twitter_handle);
-	
-	var tHeader = $("<h5>");
-	tHeader.text(truckD.name + " tweets...");
-	$("#tweets").append(tHeader);
+	$("#truckReviews").text("Some real truckin' reviews...");
 
-
-	for (var i = 0; i < twitterD.tweet.length; i++) {
-		var ptag = $("<p>");
-		ptag.text(twitterD.created[i] + "  --  " + twitterD.tweet[i]);
-		$("#tweets").append(ptag);
+	if (truckD.website !== "www.nosite.com") {
+		var link = $("<a>");
+		link.attr("href", "http://" + truckD.website);
+		link.attr("target", "_blank");
+		link.text(truckD.website);
+		$("#website").text("Website: ");
+		$("#website").append(link);
 	}
 
-	for (var i = 0; i < reviewsD.length; i++) {
-		var ptag = $("<p>");
-		ptag.text(reviewsD[i].user_name + " says: " + reviewsD[i].review)
-		$("#currentReviews").append(ptag);
+	if (!twitterD) {
+		$("#twitterHandle").text("This truck is old school and has no twitter.");
+	} else {
+		$("#truckDescription").text(twitterD.description);
+		$("#twitterHandle").text("Twitter Handle: @" + truckD.twitter_handle);
+
+		var tHeader = $("<h5>");
+		tHeader.text(truckD.name + " tweets...");
+		$("#tweets").append(tHeader);
+
+		for (var i = 0; i < twitterD.tweet.length; i++) {
+			var ptag = $("<p>");
+			ptag.text(twitterD.created[i] + "  --  " + twitterD.tweet[i]);
+			$("#tweets").append(ptag);
+		}
+	}
+
+	if (!reviewsD) {
+		$("#truckReviews").text("There are no reviews yet for this truck. Be the first to review!");
+	} else {
+		for (var i = 0; i < reviewsD.length; i++) {
+			var ptag = $("<p>");
+			ptag.text(reviewsD[i].user_name + " says: " + reviewsD[i].review)
+			$("#currentReviews").append(ptag);
+		}
 	}
 
 	$("#ftInfo").css("display", "block");
@@ -65,7 +83,6 @@ function parseFTData(data) {
 
 $("#reviewSubmit").on("click", function(event) {
 	event.preventDefault();
-	console.log($("#myModalLabel").text());
 	var queryUrl = "/api/review/" + $("#myModalLabel").text();
 
 	var reviewObject = {
@@ -76,9 +93,11 @@ $("#reviewSubmit").on("click", function(event) {
 	}
 
 	$.post(queryUrl, reviewObject, function(data) {
-		$("#averageRating").text("Rating: " + data);
+		$("#averageRating").text("Rating: " + data[0]);
+		$("#totalRatings").text("Total reviews: " + data[1]);
 		var ptag = $("<p>");
 		ptag.text(reviewObject.user_name + " says: " + reviewObject.review);
+		$("#truckReviews").text("Some real truckin' reviews...");
 		$("#currentReviews").prepend(ptag);
 		$("#userName").val("");
 		$("#rating").val("");
