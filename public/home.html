@@ -16,90 +16,45 @@
 		<!-- Custom CSS -->
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
-		<!-- JQuery cdn -->
-		<!-- **I PROVIDED THE MOST RECENT CDN SCRIPT TAGS -->
-  		<!-- <script src="https://code.jquery.com/jquery.js"></script>
-  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 		<script
 	        src="https://code.jquery.com/jquery-3.2.1.js"
 	        integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 	        crossorigin="anonymous"></script>
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body> 
 	
 	<div class="row jumbotron text-center">
 
-		<div class="col col-sm-12">
-			<h1>Truckin' Good</h1>
-		</div>
-	
+		<div class="background-wrap">
+  
+		  	<video id="video-bg-elem" preload="auto" autoplay="true" loop="loop" muted ="muted">
+		    <source src="assets/videos/foodtruck.mp4" type="video/mp4">
+		    <source src="assets/videos/foodtruck.webm" type="video/webm">
+		    </video>
+		    <div class = "content" align="center">
+		    	<h1> Truckin' Good </h1>
+		    	<p> Find and Rate The Best Food Trucks Around or Add your own! </p>
+		    		<a class="btn button" href="reviews.html"> Find and Review</a>
+		    		<a class="btn button" href="add.html"> Add a truck</a>
 
-		<div class="row col col-sm-12">
-			<ul class="main-nav">
-				<li><a href="#">Home</a></li>
-				<li><a href="add.html">Add a Food Truck</a></li>
-				<li><a href="reviews.html">Read or Rate</a></li>
-				<li><a href="about.html">About</a></li>
-			</ul>
+					<br>
+					<br>
+					<br>
+
+		    		<div class="row col-sm-12">
+						<a class="btn button" href="about.html">
+							About us
+						</a>
+					</div>
 		</div>
-		
-		<div class="outerButton">
-    		<a href="#"><button class="button">Show Me More</button></a>
-  		</div>
+			
+			
 
 	</div>
 
-	<div class="container">
-		<div class="row text-center">
-			<div class="col col-sm-12">
-
-			<a href ="/review"><button type = "button" class= "btn btn-warning btn-lg"><span class ="glyphicon glyphicon-bullhorn"></span> Find and Review</button></a>
-			<a href ="/enter"><button type = "button" class= "btn btn-primary btn-lg center"><span class ="glyphicon glyphicon-credit-card"></span> Add a Food Truck</button> </a>
-
-			</div>
-
-		</div>
-
 		<br>
 		<br>
-		<div class="row text-center" id="header">
-			<div class="col col-sm-12">
-				<h1>Featured Vendors</h1>
-			</div>
-		</div>
-
-		<br>
-		
-		<div class="row panel panel-default">		
-			<div class="row">
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-			</div>
-
-			<div class="row">
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-
-				<div class= "col-sm-4">
-				<img class="img-circle" src="" alt="Generic placeholder image" width="200" height="200">
-				</div>
-			</div>
-		</div>
 
 	</div>		
 
