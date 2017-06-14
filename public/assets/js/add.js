@@ -23,11 +23,16 @@ $("#submitTruck").on("click", function(event){
 
 	.done(function(data){
 		console.log(data);
-		alert("Food Truck Added!");
 		$("#foodTruckName").val("");
 		$("#foodType").val("");
 		$("bestDish").val("");
 		$("#webSite").val("");
 		$("#twitterHandle").val("");
+		$("#truckName").attr("value", newTruck.name);
+		$("#fileUpload").css("display", "block");
 	});
+});
+
+$("#submitUpload").on("click", function() {
+	alert("Thank you for your menu!");
 });

@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 		popular_item: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			defaultValue: "",
+			defaultValue: "none",
 		},
 		website: {
 			type: DataTypes.STRING,
@@ -41,6 +41,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			defaultValue: 0
+		},
+		menu_download: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			defaultValue: "no menu"
 		}
 	}, {
 		classMethods: {
