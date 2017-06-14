@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/", htmlRoutes);
 
-app.use("/api/", apiRoutes);
+app.use("/api/", apiRoutes.router);
 
 app.use("/upload/", uploadRoutes);
 

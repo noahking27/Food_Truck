@@ -5,6 +5,11 @@ var Twitter = require("twitter");
 var myKeys = require("../twitter_config/keys.js");
 var twitterClient = new Twitter(myKeys.twitterKeys);
 
+var average = function(avg, ratings) {
+	console.log(avg / ratings);
+	return avg / ratings;
+}
+
 //THIS WILL PRODUCE THE TOP 6 FOOD TRUCKS
 router.get("/toptrucks", function(req, res) {
 	db.Foodtrucks.findAll({ order: "current_rating DESC", limit: 3 }).then(function(dbFoodtrucks) {
@@ -158,7 +163,8 @@ router.post("/review/:ftName", function(req, res) {
 					avgRating += ratingsArray[i];
 				}
 
-				avgRating = avgRating / ratingsArray.length;
+				// avgRating = avgRating / ratingsArray.length;
+				avgRating = average(avgRating, ratingsArray.length);
 				totalRatings = ratingsArray.length;
 				updateRating(avgRating, dbFoodtrucks.dataValues.id, totalRatings);
 				res.json([avgRating.toFixed(1), totalRatings]);
@@ -178,4 +184,7 @@ function updateRating (avg, id, ratings) {
 	}).then(function(dbFoodtrucks) {});
 }
 
-module.exports = router;
+module.exports = {
+	router,
+	average
+}
