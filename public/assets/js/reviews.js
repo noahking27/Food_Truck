@@ -42,6 +42,14 @@ function parseFTData(data) {
 	$("#cuisine").text("Cuisine: " + truckD.food_type);
 	$("#truckReviews").text("Some real truckin' reviews...");
 
+	if (truckD.menu_download !== "no menu") {
+		var link = $("<a>");
+		link.attr("href", truckD.menu_download);
+		link.text("Download");
+		$("#menu").text("Menu: ");
+		$("#menu").append(link);
+	}
+
 	if (truckD.website !== "www.nosite.com") {
 		var link = $("<a>");
 		link.attr("href", "http://" + truckD.website);

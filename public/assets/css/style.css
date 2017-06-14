@@ -148,3 +148,7 @@ h3 {
     text-align: center;
     padding-top: 50px;
 }
+
+#fileUpload {
+  display: none;
+}
