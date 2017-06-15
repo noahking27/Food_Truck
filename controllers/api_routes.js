@@ -6,9 +6,11 @@ var myKeys = require("../twitter_config/keys.js");
 var twitterClient = new Twitter(myKeys.twitterKeys);
 
 var average = function(avg, ratings) {
-	console.log(avg / ratings);
-	return avg / ratings;
-}
+    console.log(avg / ratings);
+    if (typeof avg !== "number" || typeof ratings !== "number") {
+        throw new Error("avg or ratings is not a number.");
+    } else return avg / ratings;
+};
 
 //THIS WILL PRODUCE THE TOP 6 FOOD TRUCKS
 router.get("/toptrucks", function(req, res) {
